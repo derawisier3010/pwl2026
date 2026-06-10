@@ -10,6 +10,12 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        if (auth()->check() && auth()->user()->role != 'admin') {
+            abort(403, 'Akses ditolak');
+        }
+    }
 public function index()
     {
         $users = User::orderBy('id', 'desc')->paginate(10);

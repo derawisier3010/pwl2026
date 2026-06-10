@@ -7,6 +7,12 @@ use App\Models\Barang;
 
 class BarangController extends Controller
 {
+    public function __construct()
+    {
+        if (auth()->check() && auth()->user()->role != 'admin') {
+            abort(403, 'Akses ditolak');
+        }
+    }
     public function index()
     {
         $barangs = Barang::orderBy('id', 'desc')->get();

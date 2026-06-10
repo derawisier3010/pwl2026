@@ -9,6 +9,10 @@ class AdminSubscriptionReportController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role != 'admin') {
+            abort(403, 'Akses ditolak');
+        }
+
         $subscriptions = Subscription::with(['user', 'plan'])
             ->latest()
             ->paginate(10);
